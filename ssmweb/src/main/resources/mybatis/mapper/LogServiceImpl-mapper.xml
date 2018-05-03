@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.huaxing.ssm.mapper.UserMapper">
+
+    <resultMap id="baseResultMap" type="com.huaxing.ssm.dto.UserDto">
+        <result column="user_id" property="userId"></result>
+        <result column="user_name" property="userName"></result>
+        <result column="user_password" property="userPassWord"></result>
+        <result column="user_status" property="userStatus"></result>
+    </resultMap>
+
+
+    <resultMap id="userLogMap" type="com.huaxing.ssm.dto.UserLogDto">
+        <result column="userlog_id" property="userLogId"></result>
+        <result column="user_id" property="userId"></result>
+        <result column="user_name" property="userName"></result>
+        <result column="userlog_logintime" property="userLogLoginTime"></result>
+    </resultMap>
+
+
+    <select id="findUser" parameterType="com.huaxing.ssm.dto.UserDto" resultMap="baseResultMap">
+      SELECT
+        u.user_name,
+        u.user_password,
+        u.user_status,
+        u.user_id
+    FROM
+        `t_user` u
+    WHERE
+        u.user_name = #{userName}
+    AND u.user_password = #{userPassWord}
+    AND u.user_status = '1'
+
+    </select>
+
+
+    <insert id="insertUserLog" parameterType="com.huaxing.ssm.dto.UserDto">
+      INSERT INTO t_userlog (user_id, userlog_logintime)
+        VALUES
+            (
+                #{userId},
+                #{userLogLoginTime}
+            )
+    </insert>
+
+
+    <select id="getLogs" parameterType="int" resultMap="userLogMap">
+      SELECT
+        l.userlog_id,
+        l.user_id,
+        u.user_name,
+        l.userlog_logintime
+    FROM
+        t_userlog l,
+        t_user u
+    WHERE
+        u.user_id = l.user_id
+    AND u.user_id = #{userId}
+    </select>
+
+
+</mapper>
