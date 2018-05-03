@@ -13,8 +13,10 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 import java.util.List;
-import java.util.logging.Logger;
 
+/**
+ * 华兴开发分支
+ */
 @Controller
 @RequestMapping(value = "/log")
 public class LogController {
