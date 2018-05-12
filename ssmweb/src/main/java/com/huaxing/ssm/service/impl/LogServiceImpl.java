@@ -1,12 +1,13 @@
 package com.huaxing.ssm.service.impl;
 
-import com.huaxing.ssm.dto.UserLogDto;
-import com.huaxing.ssm.dto.UserDto;
-import com.huaxing.ssm.mapper.UserMapper;
+import com.huaxing.ssm.mapper.TKUserLogMapper;
+import com.huaxing.ssm.mapper.TKUserMapper;
+import com.huaxing.ssm.pojo.UserLogPO;
+import com.huaxing.ssm.pojo.UserPO;
 import com.huaxing.ssm.service.LogService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -14,37 +15,38 @@ import java.util.List;
 @Service
 public class LogServiceImpl implements LogService{
 
-    @Resource
-    private UserMapper userMapper;
+    @Autowired
+    private TKUserMapper userMapper;
+
+    @Autowired
+    private TKUserLogMapper userLogMapper;
 
     /**
      * 登录方法
-     * @param userDto
+     * @param user
      */
-    public UserDto login(UserDto userDto) throws Exception {
+    public UserPO login(UserPO user) throws Exception {
 
-        if(userDto == null ){
+        if(user == null ){
             throw new Exception("no date！");
         }
-
-        UserDto user = userMapper.findUser(userDto);
+        UserPO userLogin = userMapper.selectOne(user);
 
 
         //write Log
-        UserLogDto userLogDto = new UserLogDto();
+        UserLogPO userLogPO = new UserLogPO();
 
-        userLogDto.setUserId(user.getUserId());
-        userLogDto.setUserLogLoginTime(
+        userLogPO.setUserId(userLogin.getUserId());
+        userLogPO.setUserLogLoginTime(
                 new SimpleDateFormat("yyyy-MM-dd hh:mm:ss")
                         .format(new Date()));
 
-        userMapper.insertUserLog(userLogDto);
+        userLogMapper.insert(userLogPO);
 
         return user;
     }
 
-    public List<UserLogDto> getLogs(Integer userId) {
-
-        return userMapper.getLogs(userId);
+    public List<UserLogPO> getLogs(Integer userId) {
+        return userLogMapper.select(new UserLogPO(userId));
     }
 }

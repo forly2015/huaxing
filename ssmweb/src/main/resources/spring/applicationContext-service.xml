@@ -19,4 +19,14 @@
     <!-- 配置service扫描 -->
     <context:component-scan base-package="com.huaxing.ssm.service"/>
 
+    <!-- 通用mapper -->
+    <bean class="tk.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.huaxing.ssm.mapper" />
+        <property name="properties">
+            <value>
+                mappers=tk.mybatis.mapper.common.Mapper
+            </value>
+        </property>
+    </bean>
+
 </beans>

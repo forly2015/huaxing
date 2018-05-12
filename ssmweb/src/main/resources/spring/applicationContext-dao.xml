@@ -56,4 +56,6 @@
         <property name="basePackage" value="com.huaxing.ssm.mapper"></property>
     </bean>
 
+
+
 </beans>

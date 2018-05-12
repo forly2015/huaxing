@@ -1,14 +1,14 @@
 package com.huaxing.ssm.service;
 
-import com.huaxing.ssm.dto.UserLogDto;
-import com.huaxing.ssm.dto.UserDto;
+import com.huaxing.ssm.pojo.UserLogPO;
+import com.huaxing.ssm.pojo.UserPO;
 
 import java.util.List;
 
 public interface LogService {
 
 
-    UserDto login(UserDto user) throws Exception;
+    UserPO login(UserPO user) throws Exception;
 
-    List<UserLogDto> getLogs(Integer user);
+    List<UserLogPO> getLogs(Integer user);
 }

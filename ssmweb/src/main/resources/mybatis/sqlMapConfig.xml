@@ -17,6 +17,7 @@
 
     <mappers>
         <mapper resource="mybatis/mapper/LogServiceImpl-mapper.xml"/>
+        <mapper class = "com.huaxing.ssm.mapper.TKUserMapper"/>
     </mappers>
 
 
