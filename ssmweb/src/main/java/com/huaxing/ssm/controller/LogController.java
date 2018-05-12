@@ -1,7 +1,7 @@
 package com.huaxing.ssm.controller;
 
-import com.huaxing.ssm.dto.UserDto;
-import com.huaxing.ssm.dto.UserLogDto;
+import com.huaxing.ssm.pojo.UserLogPO;
+import com.huaxing.ssm.pojo.UserPO;
 import com.huaxing.ssm.service.LogService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -29,19 +29,19 @@ public class LogController {
      * @return
      */
     @RequestMapping(value = "/login",method = RequestMethod.POST)
-    public ModelAndView login(UserDto userDto,HttpSession Session){
+    public ModelAndView login(UserPO user, HttpSession Session){
 
 
         ModelAndView mav = new ModelAndView();
 
-        UserDto user = null;
+        UserPO userLogin = null;
         try {
-            user = logService.login(userDto);
+            userLogin = logService.login(user);
             if(user == null){
                 throw new Exception("登录失败");
             }
 
-            Session.setAttribute("USER",user);
+            Session.setAttribute("USER",userLogin);
 
             mav.setViewName("redirect:/log/logs.do");
 
@@ -65,10 +65,10 @@ public class LogController {
     public ModelAndView toLogUI(HttpSession Session){
         ModelAndView mav = new ModelAndView();
 
-        UserDto user = (UserDto) Session.getAttribute("USER");
+        UserPO user = (UserPO) Session.getAttribute("USER");
 
         //获取日志
-        List<UserLogDto> userLogs = logService.getLogs(user.getUserId());
+        List<UserLogPO> userLogs = logService.getLogs(user.getUserId());
         mav.setViewName("log");
         mav.addObject("userLogs",userLogs);
         return mav;
