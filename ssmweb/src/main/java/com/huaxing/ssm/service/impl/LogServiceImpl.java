@@ -32,6 +32,9 @@ public class LogServiceImpl implements LogService{
         }
         UserPO userLogin = userMapper.selectOne(user);
 
+        if(userLogin == null){
+            throw new Exception("请检查账号密码是否正确");
+        }
 
         //write Log
         UserLogPO userLogPO = new UserLogPO();
